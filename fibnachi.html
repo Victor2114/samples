@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+</head>
+<body>
+	<input type="text" placeholder="请输入一个正整数" />
+	<button>获取小于左边数字的斐波那契数列</button>
+	<span></span>
+	<script type="text/javascript">
+		document.querySelector('button').onclick=function(){
+			//获取用户输入的数字
+			var max=Number(document.querySelector('input').value)
+			//生成斐波那契数列并显示
+			document.querySelector('span').innerHTML=fib(max);
+		}
+		
+		function fib(max){
+			//求<max的斐波那契数列
+			//1 1 2 3 5 8...
+			var i=1,j=1;
+			var str=i+','+j;
+			while(i+j<max){
+				j=i+j;
+				i=j-i;
+				str+=(','+j);
+			}
+			return str;
+		}
+	</script>
+</body>
+</html>

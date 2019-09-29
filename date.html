@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+</head>
+<body>
+	<span></span>
+	<script type="text/javascript">
+		// setInterval(function(){},1000)
+		//定时器
+		setInterval(function(){
+			var now=new Date();
+			var weekDay=['日','一','二','三','四','五','六']
+			var dateStr=now.getFullYear()+'年'+(now.getMonth()+1)+'月'+now.getDate()+'日 星期'+weekDay[now.getDay()]+' '+now.getHours()+'时'+now.getMinutes()+'分'+now.getSeconds()+'秒'
+			var timeStr='<br>距离1970年1月1日0时0分0秒'+now.getTime()+'毫秒';
+			document.querySelector('span').innerHTML=dateStr+timeStr;
+		},1000)
+	</script>
+</body>
+</html>

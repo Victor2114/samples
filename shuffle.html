@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+</head>
+<body>
+	<input type="text" placeholder="请输入一串数字用','连接" />
+	<button>随机打乱顺序</button>
+	<span></span>
+	<script type="text/javascript">
+		$('button').onclick=function(){
+			//获取用户输入的内容，置于一数组中
+			var arr=$('input').value.split(',');
+			//将该数组随机打乱顺序
+			//方法1
+			console.log(arr);
+			shuffle(arr);
+			console.log(arr);
+			// 方法2
+			// arr.sort(function(){return Math.random()-0.5;})
+			//显示
+			$('span').innerHTML=arr.join(',');
+		}
+		function shuffle(a){
+			for(var i=0;i<a.length;i++){
+				//获取一个随机下标
+				var randIndex=rand(0,a.length);
+				var tmp=a[i];
+				a[i]=a[randIndex];
+				a[randIndex]=tmp;
+			}
+			//return a;
+		}
+		function rand(min,max){
+			return min+parseInt(Math.random()*(max-min));
+		}
+		function $(selector){
+			return document.querySelector(selector);
+		}
+	</script>
+</body>
+</html>

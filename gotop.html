@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		p{
+			height: 1500px;
+		}
+		p:first-child{
+			background-color: blue;
+		}
+		p:last-of-type{
+			background-color: red;
+		}
+		.box{
+			width: 100px;
+			height: 100px;
+			text-align:center;
+			line-height: 100px;
+			background-color: gray;
+			font-size:20px;
+			position: fixed;
+			right:0;
+			bottom:0;
+			display:none;
+		}
+	</style>
+</head>
+<body>
+	<p>Hello World</p>
+	<p>你好世界</p>
+	<div class="box">回到顶部</div>
+	<script type="text/javascript" src="js/tween1.0.js"></script>
+	<script type="text/javascript">
+	//思路(需求)：
+	//1 滚动条拖动一定距离时显示box
+	//	window.onscroll
+	//2 点击box时滚动条自动滚到顶部
+	//如何判断滚到顶部？
+	//document.body.scrollTop||document.documentElement.scrollTop
+	//获取元素
+	var box=document.querySelector('.box');
+	window.onscroll=function(){
+		var scrollTop=document.body.scrollTop||document.documentElement.scrollTop;
+		if(scrollTop>100){
+			box.style.display='block'
+		}else{
+			box.style.display='none'
+		}
+	}
+	box.onclick=function(){
+		//兼容性处理
+		var tmp;
+		if(document.body.scrollTop){
+			tmp=document.body;
+		}else{
+			tmp=document.documentElement;
+		}
+		//突变
+		tmp.scrollTop=0;
+		//缓慢移动
+		// var t=0,
+		// 	b=tmp.scrollTop,
+		// 	c=-b,
+		// 	d=40;
+		// var timer=setInterval(function(){
+		// 		t++;
+		// 		if(t>=d){
+		// 			clearInterval(timer)
+		// 		}
+		// 		console.log(tmp.scrollTop);
+		// 		tmp.scrollTop=Tween.Elastic.easeInOut(t,b,c,d);
+		// },20)
+	}
+	</script>
+</body>
+</html>

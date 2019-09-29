@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+	<style>
+		.wrap{
+			width: 400px;
+			height: 400px;
+			margin:10px auto;
+			position:relative;
+			text-align:center;
+		}
+		.content{
+			position:relative;
+			width: 100%;
+			height: 100%;
+			line-height: 400px;
+			font-size:80px;
+		}
+		.item{
+			position:absolute;
+			width: 100%;
+			height: 100%;
+			background-color: blue;
+			opacity:0;
+			z-index:0;
+			transition:opacity 0.5s;
+		}
+		.item.active{
+			opacity:1;
+			z-index:10;
+		}
+		.nav{
+			position: absolute;
+			width: 100%;
+			bottom:0;
+			z-index:20;
+		}
+		.nav-item{
+			display:inline-block;
+			width: 12px;
+			height: 12px;
+			border-radius:50%;
+			background-color: gray;
+			margin:5px 10px;
+		}
+		.nav-item.active{
+			background-color: white;
+			border:2px solid pink;
+		}
+		.left,.right{
+			width: 0;
+			height: 0;
+			border:30px solid transparent;
+			position:absolute;
+			top:50%;
+			margin-top:-30px;
+			z-index:20;
+		}
+		.left{
+			border-right-color:gray;
+			left:0;
+		}
+		.right{
+			border-left-color:gray;
+			right:0;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<div class="content">
+			<div class="item active">1</div>
+			<div class="item">2</div>
+			<div class="item">3</div>
+			<div class="item">4</div>
+		</div>
+		<div class="nav">
+			<div class="nav-item active"></div>
+			<div class="nav-item"></div>
+			<div class="nav-item"></div>
+			<div class="nav-item"></div>
+		</div>
+		<div class="left"></div>
+		<div class="right"></div>
+	</div>
+	<script type="text/javascript" src="js/global.js"></script>
+	<script type="text/javascript">
+	//思路(需求):
+	//click某一个nav时对应的item及nav加上active类,其他的都删除active类
+	var navs=_$('.nav-item'),
+		items=_$('.item');
+	var activeIndex=0,
+		t;
+	for(var i=0;i<navs.length;i++){
+		!function(i){
+			navs[i].onclick=function(){
+				show(i)
+			}
+		}(i)
+	}
+
+	//自动播放
+	autoplay();
+	function autoplay(){
+		t=setInterval(function(){
+			show(activeIndex+1)
+		},1500)
+	}
+
+	// 上一页
+	$('.left').onclick=function(){
+		show(activeIndex-1)
+	}
+	// 下一页
+	$('.left').onclick=function(){
+		show(activeIndex+1)
+	}
+
+	function show(index){
+		if(index>=items.length)index=0;
+		else if(index<0)index=items.length-1
+		for(var i=0;i<items.length;i++){
+			items[i].className="item";
+			navs[i].className="nav-item";
+		}
+		items[index].className="item active";
+		navs[index].className="nav-item active";
+		activeIndex=index;
+	}
+	</script>
+</body>
+</html>

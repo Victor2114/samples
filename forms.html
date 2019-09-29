@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<button>创建表单</button>
+	<script type="text/javascript">
+		document.querySelector('button').onclick = function(){
+			var form = document.createElement('form');
+			// var input1 = document.createElement('input');
+			// input1.setAttribute('type','text')
+			// input1.setAttribute('placeholder','用户名')
+			// form.appendChild(input1);
+			var eles = [
+			{tag:'input',type:'text',placeholder:'用户名'},
+			{tag:'br'},
+			{tag:'input',type:'text',placeholder:'密码'},
+			{tag:'br'},
+			{tag:'label',innerHTML:'性别'},
+			{tag:'input',type:'radio',name:'sex',id:'male'},
+			{tag:'label',innerHTML:'男',for:'male'},
+			{tag:'input',type:'radio',name:'sex',id:'female'},
+			{tag:'label',innerHTML:'女',for:'female'},
+			{tag:'br'},
+			{tag:'label',innerHTML:'个人爱好'},
+			{tag:'input',type:'checkbox',id:'hobby'},
+			{tag:'label',innerHTML:'篮球',for:'hobby'},
+			{tag:'br'},
+			{tag:'select',innerHTML:'<option>中国</option><option>美国</option>'}
+			]
+			for(var i=0;i<eles.length;i++){
+				var tmp=null;
+				for(var attr in eles[i]){
+					if(attr=='tag'){
+						tmp = document.createElement(eles[i][attr])
+					}
+					tmp[attr] = eles[i][attr];
+				}
+				// var tmp = document.createElement(eles[i].tag);
+				// if(eles[i].type){
+				// 	tmp.setAttribute('type',eles[i].type)
+				// }
+				// if(eles[i].innerHTML){
+				// 	//tmp.setAttribute('innerHTML',eles[i].innerHTML)
+				// 	tmp.innerHTML = eles[i].innerHTML
+				// }
+				// if(eles[i].placeholder){
+				// 		tmp.setAttribute('placeholder',eles[i].placeholder)
+				// }
+				// if(eles[i].name){
+				// 		tmp.setAttribute('name',eles[i].name)
+				// }
+				// if(eles[i].for){
+				// 		tmp.setAttribute('for',eles[i].for)
+				// }
+				// if(eles[i].id){
+				// 		tmp.setAttribute('id',eles[i].id)
+				// }
+				form.appendChild(tmp);
+			}
+			document.body.appendChild(form);
+		}
+	</script>
+</body>
+</html>

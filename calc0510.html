@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>简易计算器</title>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+			font:20px bold Arial;
+		}
+		table{
+			border-collapse: collapse;
+			margin:0 auto;
+		}
+		td{
+			text-align: center;
+			font-size:16px;
+			font-weight:bold;
+		}
+
+		input{
+			width: 90px;
+			height: 60px;
+			font:bold 20px arial;
+		}
+		.zero{
+			width: 180px;
+		}
+		#result{
+			width: 360px;
+			color:blue;
+			border:none;
+		}
+
+	</style>
+</head>
+<body>
+	<table width="360" height="360" cellspacing="0" cellpadding="0" border="1">
+		<caption>简易计算器</caption>
+		<tr>
+			<td colspan="4"><input type="text" id="result"></td>
+		</tr>
+		<tr>
+			<td><input type="button" id="clear" value="AC"></td>
+			<td><input type="button" id="minus" value="+/-"></td>
+			<td><input type="button" class="calc" value="%"></td>
+			<td><input type="button" class="calc" value="/"></td>
+		</tr>
+		<tr>
+			<td><input type="button" class="calc" value="7"></td>
+			<td><input type="button" class="calc" value="8"></td>
+			<td><input type="button" class="calc" value="9"></td>
+			<td><input type="button" class="calc" value="X"></td>
+		</tr>
+		<tr>
+			<td><input type="button" class="calc" value="4"></td>
+			<td><input type="button" class="calc"  value="5"></td>
+			<td><input type="button" class="calc"  value="6"></td>
+			<td><input type="button" class="calc"  value="-"></td>
+		</tr>
+		<tr>
+			<td><input type="button" class="calc" value="1"></td>
+			<td><input type="button" class="calc" value="2"></td>
+			<td><input type="button" class="calc" value="3"></td>
+			<td><input type="button" class="calc" value="+"></td>
+		</tr>
+		<tr>
+			<td colspan="2"><input type="button" class="calc zero" value="0"></td>
+			<td><input type="button" class="calc" value="."></td>
+			<td><input type="button" id="equal" value="="></td>
+		</tr>
+	</table>
+
+	<script type="text/javascript">
+	//思路：
+	//1 点击1,2,...,+-x/ 时 构造算术表达式(字符串),放在result显示框 中
+	//2 点击 =  执行运算(通过eval(算术表达式))，并将结果显示在 result显示框中
+	//3 点击 AC 清空 result;点击+/- 在 已构造的算术表达式两端加上-()
+	
+	//获取元素
+	var calcs = document.querySelectorAll('.calc');
+	var equal = document.querySelector('#equal');
+	var resBox = document.querySelector('#result');
+	var clear = document.querySelector('#clear');
+	var minus = document.querySelector('#minus');
+
+	//构造算术表达式
+	for(var i=0;i<calcs.length;i++){
+		calcs[i].onclick = function(){
+			resBox.value += this.value;
+		}
+	}
+
+	//执行运算
+	equal.onclick = function(){
+		var exp = resBox.value.replace(/X/g,'*')
+		try{
+			resBox.value = eval(exp);
+		}catch(e){
+			console.log(e)
+			alert('请输入合法的算式!')
+		}
+	}
+
+	//清空
+	clear.onclick = function(){
+		resBox.value = '';
+	}
+
+	//+/-处理
+	minus.onclick = function(){
+		resBox.value = '-('+resBox.value+')'
+	}
+
+	</script>
+</body>
+</html>

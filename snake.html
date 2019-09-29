@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>贪吃蛇</title>
+	<style type="text/css">
+		table{
+			width: 400px;
+			height: 400px;
+			/*border-collapse:collapse;*/
+			border:1px solid red;
+			border-spacing: 1px;
+			margin:10px auto;
+			background-color: gray;
+		}
+		.info{
+			text-align:center;
+			height: 40px;
+			line-height: 40px;
+			color:red;
+			font-weight: bolder;
+			font-size:24px;
+		}
+	</style>
+</head>
+<body>
+	<div class="info"></div>
+	<table>
+		<caption>贪吃蛇</caption>
+		<tr class="r1">
+			<td class="c1"></td>
+			<td class="c2"></td>
+			<td class="c3"></td>
+			<td class="c4"></td>
+			<td class="c5"></td>
+			<td class="c6"></td>
+			<td class="c7"></td>
+			<td class="c8"></td>
+			<td class="c9"></td>
+			<td class="c10"></td>
+			<td class="c11"></td>
+			<td class="c12"></td>
+			<td class="c13"></td>
+			<td class="c14"></td>
+			<td class="c15"></td>
+			<td class="c16"></td>
+			<td class="c17"></td>
+			<td class="c18"></td>
+			<td class="c19"></td>
+			<td class="c20"></td>
+		</tr>
+		<tr class="r2">
+			<td class="c1"></td>
+			<td class="c2"></td>
+			<td class="c3"></td>
+			<td class="c4"></td>
+			<td class="c5"></td>
+			<td class="c6"></td>
+			<td class="c7"></td>
+			<td class="c8"></td>
+			<td class="c9"></td>
+			<td class="c10"></td>
+			<td class="c11"></td>
+			<td class="c12"></td>
+			<td class="c13"></td>
+			<td class="c14"></td>
+			<td class="c15"></td>
+			<td class="c16"></td>
+			<td class="c17"></td>
+			<td class="c18"></td>
+			<td class="c19"></td>
+			<td class="c20"></td>
+		</tr>
+		<tr class="r3">
+			<td class="c1"></td>
+			<td class="c2"></td>
+			<td class="c3"></td>
+			<td class="c4"></td>
+			<td class="c5"></td>
+			<td class="c6"></td>
+			<td class="c7"></td>
+			<td class="c8"></td>
+			<td class="c9"></td>
+			<td class="c10"></td>
+			<td class="c11"></td>
+			<td class="c12"></td>
+			<td class="c13"></td>
+			<td class="c14"></td>
+			<td class="c15"></td>
+			<td class="c16"></td>
+			<td class="c17"></td>
+			<td class="c18"></td>
+			<td class="c19"></td>
+			<td class="c20"></td>
+		</tr>
+		<tr class="r4">
+			<td class="c1"></td>
+			<td class="c2"></td>
+			<td class="c3"></td>
+			<td class="c4"></td>
+			<td class="c5"></td>
+			<td class="c6"></td>
+			<td class="c7"></td>
+			<td class="c8"></td>
+			<td class="c9"></td>
+			<td class="c10"></td>
+			<td class="c11"></td>
+			<td class="c12"></td>
+			<td class="c13"></td>
+			<td class="c14"></td>
+			<td class="c15"></td>
+			<td class="c16"></td>
+			<td class="c17"></td>
+			<td class="c18"></td>
+			<td class="c19"></td>
+			<td class="c20"></td>
+		</tr>
+		<tr class="r5">
+			<td class="c1"></td>
+			<td class="c2"></td>
+			<td class="c3"></td>
+			<td class="c4"></td>
+			<td class="c5"></td>
+			<td class="c6"></td>
+			<td class="c7"></td>
+			<td class="c8"></td>
+			<td class="c9"></td>
+			<td class="c10"></td>
+			<td class="c11"></td>
+			<td class="c12"></td>
+			<td class="c13"></td>
+			<td class="c14"></td>
+			<td class="c15"></td>
+			<td class="c16"></td>
+			<td class="c17"></td>
+			<td class="c18"></td>
+			<td class="c19"></td>
+			<td class="c20"></td>
+		</tr>
+		<tr class="r6">
+			<td class="c1"></td>
+			<td class="c2"></td>
+			<td class="c3"></td>
+			<td class="c4"></td>
+			<td class="c5"></td>
+			<td class="c6"></td>
+			<td class="c7"></td>
+			<td class="c8"></td>
+			<td class="c9"></td>
+			<td class="c10"></td>
+			<td class="c11"></td>
+			<td class="c12"></td>
+			<td class="c13"></td>
+			<td class="c14"></td>
+			<td class="c15"></td>
+			<td class="c16"></td>
+			<td class="c17"></td>
+			<td class="c18"></td>
+			<td class="c19"></td>
+			<td class="c20"></td>
+		</tr>
+		<tr class="r7">
+			<td class="c1"></td>
+			<td class="c2"></td>
+			<td class="c3"></td>
+			<td class="c4"></td>
+			<td class="c5"></td>
+			<td class="c6"></td>
+			<td class="c7"></td>
+			<td class="c8"></td>
+			<td class="c9"></td>
+			<td class="c10"></td>
+			<td class="c11"></td>
+			<td class="c12"></td>
+			<td class="c13"></td>
+			<td class="c14"></td>
+			<td class="c15"></td>
+			<td class="c16"></td>
+			<td class="c17"></td>
+			<td class="c18"></td>
+			<td class="c19"></td>
+			<td class="c20"></td>
+		</tr>
+		<tr class="r8">
+			<td class="c1"></td>
+			<td class="c2"></td>
+			<td class="c3"></td>
+			<td class="c4"></td>
+			<td class="c5"></td>
+			<td class="c6"></td>
+			<td class="c7"></td>
+			<td class="c8"></td>
+			<td class="c9"></td>
+			<td class="c10"></td>
+			<td class="c11"></td>
+			<td class="c12"></td>
+			<td class="c13"></td>
+			<td class="c14"></td>
+			<td class="c15"></td>
+			<td class="c16"></td>
+			<td class="c17"></td>
+			<td class="c18"></td>
+			<td class="c19"></td>
+			<td class="c20"></td>
+		</tr>
+		<tr class="r9">
+			<td class="c1"></td>
+			<td class="c2"></td>
+			<td class="c3"></td>
+			<td class="c4"></td>
+			<td class="c5"></td>
+			<td class="c6"></td>
+			<td class="c7"></td>
+			<td class="c8"></td>
+			<td class="c9"></td>
+			<td class="c10"></td>
+			<td class="c11"></td>
+			<td class="c12"></td>
+			<td class="c13"></td>
+			<td class="c14"></td>
+			<td class="c15"></td>
+			<td class="c16"></td>
+			<td class="c17"></td>
+			<td class="c18"></td>
+			<td class="c19"></td>
+			<td class="c20"></td>
+		</tr>
+		<tr class="r10">
+			<td class="c1"></td>
+			<td class="c2"></td>
+			<td class="c3"></td>
+			<td class="c4"></td>
+			<td class="c5"></td>
+			<td class="c6"></td>
+			<td class="c7"></td>
+			<td class="c8"></td>
+			<td class="c9"></td>
+			<td class="c10"></td>
+			<td class="c11"></td>
+			<td class="c12"></td>
+			<td class="c13"></td>
+			<td class="c14"></td>
+			<td class="c15"></td>
+			<td class="c16"></td>
+			<td class="c17"></td>
+			<td class="c18"></td>
+			<td class="c19"></td>
+			<td class="c20"></td>
+		</tr>
+		<tr class="r11">
+			<td class="c1"></td>
+			<td class="c2"></td>
+			<td class="c3"></td>
+			<td class="c4"></td>
+			<td class="c5"></td>
+			<td class="c6"></td>
+			<td class="c7"></td>
+			<td class="c8"></td>
+			<td class="c9"></td>
+			<td class="c10"></td>
+			<td class="c11"></td>
+			<td class="c12"></td>
+			<td class="c13"></td>
+			<td class="c14"></td>
+			<td class="c15"></td>
+			<td class="c16"></td>
+			<td class="c17"></td>
+			<td class="c18"></td>
+			<td class="c19"></td>
+			<td class="c20"></td>
+		</tr>
+		<tr class="r12">
+			<td class="c1"></td>
+			<td class="c2"></td>
+			<td class="c3"></td>
+			<td class="c4"></td>
+			<td class="c5"></td>
+			<td class="c6"></td>
+			<td class="c7"></td>
+			<td class="c8"></td>
+			<td class="c9"></td>
+			<td class="c10"></td>
+			<td class="c11"></td>
+			<td class="c12"></td>
+			<td class="c13"></td>
+			<td class="c14"></td>
+			<td class="c15"></td>
+			<td class="c16"></td>
+			<td class="c17"></td>
+			<td class="c18"></td>
+			<td class="c19"></td>
+			<td class="c20"></td>
+		</tr>
+		<tr class="r13">
+			<td class="c1"></td>
+			<td class="c2"></td>
+			<td class="c3"></td>
+			<td class="c4"></td>
+			<td class="c5"></td>
+			<td class="c6"></td>
+			<td class="c7"></td>
+			<td class="c8"></td>
+			<td class="c9"></td>
+			<td class="c10"></td>
+			<td class="c11"></td>
+			<td class="c12"></td>
+			<td class="c13"></td>
+			<td class="c14"></td>
+			<td class="c15"></td>
+			<td class="c16"></td>
+			<td class="c17"></td>
+			<td class="c18"></td>
+			<td class="c19"></td>
+			<td class="c20"></td>
+		</tr>
+		<tr class="r14">
+			<td class="c1"></td>
+			<td class="c2"></td>
+			<td class="c3"></td>
+			<td class="c4"></td>
+			<td class="c5"></td>
+			<td class="c6"></td>
+			<td class="c7"></td>
+			<td class="c8"></td>
+			<td class="c9"></td>
+			<td class="c10"></td>
+			<td class="c11"></td>
+			<td class="c12"></td>
+			<td class="c13"></td>
+			<td class="c14"></td>
+			<td class="c15"></td>
+			<td class="c16"></td>
+			<td class="c17"></td>
+			<td class="c18"></td>
+			<td class="c19"></td>
+			<td class="c20"></td>
+		</tr>
+		<tr class="r15">
+			<td class="c1"></td>
+			<td class="c2"></td>
+			<td class="c3"></td>
+			<td class="c4"></td>
+			<td class="c5"></td>
+			<td class="c6"></td>
+			<td class="c7"></td>
+			<td class="c8"></td>
+			<td class="c9"></td>
+			<td class="c10"></td>
+			<td class="c11"></td>
+			<td class="c12"></td>
+			<td class="c13"></td>
+			<td class="c14"></td>
+			<td class="c15"></td>
+			<td class="c16"></td>
+			<td class="c17"></td>
+			<td class="c18"></td>
+			<td class="c19"></td>
+			<td class="c20"></td>
+		</tr>
+		<tr class="r16">
+			<td class="c1"></td>
+			<td class="c2"></td>
+			<td class="c3"></td>
+			<td class="c4"></td>
+			<td class="c5"></td>
+			<td class="c6"></td>
+			<td class="c7"></td>
+			<td class="c8"></td>
+			<td class="c9"></td>
+			<td class="c10"></td>
+			<td class="c11"></td>
+			<td class="c12"></td>
+			<td class="c13"></td>
+			<td class="c14"></td>
+			<td class="c15"></td>
+			<td class="c16"></td>
+			<td class="c17"></td>
+			<td class="c18"></td>
+			<td class="c19"></td>
+			<td class="c20"></td>
+		</tr>
+		<tr class="r17">
+			<td class="c1"></td>
+			<td class="c2"></td>
+			<td class="c3"></td>
+			<td class="c4"></td>
+			<td class="c5"></td>
+			<td class="c6"></td>
+			<td class="c7"></td>
+			<td class="c8"></td>
+			<td class="c9"></td>
+			<td class="c10"></td>
+			<td class="c11"></td>
+			<td class="c12"></td>
+			<td class="c13"></td>
+			<td class="c14"></td>
+			<td class="c15"></td>
+			<td class="c16"></td>
+			<td class="c17"></td>
+			<td class="c18"></td>
+			<td class="c19"></td>
+			<td class="c20"></td>
+		</tr>
+		<tr class="r18">
+			<td class="c1"></td>
+			<td class="c2"></td>
+			<td class="c3"></td>
+			<td class="c4"></td>
+			<td class="c5"></td>
+			<td class="c6"></td>
+			<td class="c7"></td>
+			<td class="c8"></td>
+			<td class="c9"></td>
+			<td class="c10"></td>
+			<td class="c11"></td>
+			<td class="c12"></td>
+			<td class="c13"></td>
+			<td class="c14"></td>
+			<td class="c15"></td>
+			<td class="c16"></td>
+			<td class="c17"></td>
+			<td class="c18"></td>
+			<td class="c19"></td>
+			<td class="c20"></td>
+		</tr>
+		<tr class="r19">
+			<td class="c1"></td>
+			<td class="c2"></td>
+			<td class="c3"></td>
+			<td class="c4"></td>
+			<td class="c5"></td>
+			<td class="c6"></td>
+			<td class="c7"></td>
+			<td class="c8"></td>
+			<td class="c9"></td>
+			<td class="c10"></td>
+			<td class="c11"></td>
+			<td class="c12"></td>
+			<td class="c13"></td>
+			<td class="c14"></td>
+			<td class="c15"></td>
+			<td class="c16"></td>
+			<td class="c17"></td>
+			<td class="c18"></td>
+			<td class="c19"></td>
+			<td class="c20"></td>
+		</tr>
+		<tr class="r20">
+			<td class="c1"></td>
+			<td class="c2"></td>
+			<td class="c3"></td>
+			<td class="c4"></td>
+			<td class="c5"></td>
+			<td class="c6"></td>
+			<td class="c7"></td>
+			<td class="c8"></td>
+			<td class="c9"></td>
+			<td class="c10"></td>
+			<td class="c11"></td>
+			<td class="c12"></td>
+			<td class="c13"></td>
+			<td class="c14"></td>
+			<td class="c15"></td>
+			<td class="c16"></td>
+			<td class="c17"></td>
+			<td class="c18"></td>
+			<td class="c19"></td>
+			<td class="c20"></td>
+		</tr>
+	</table>
+	
+	<script type="text/javascript">
+	//思路1：
+	//结构：
+	//table作棋盘；每个格子一个编号如0-399
+	//由编号可求出对应的行列  如编号为2的格子
+	//行=parseInt(2/20)+1
+	//列=(2%20)+1
+	//连续的背景色 作为蛇，一个格子的背景色 作为食物
+	//蛇及食物 的对应的格子编号数据分别放在两个变量snake(数组) 及food中
+	//游戏过程：
+	//1 每隔固定时间清空所有背景色，再根据最新的蛇及食物编号数据重置背景色 定时器
+	//2 蛇的移动 对应 snake数组元素的变化，蛇头及蛇尾
+	// 如[0,1,2]变为[1,2,3]删除蛇尾，增加新蛇头
+	// 变化规则由蛇的运动方向决定：
+	// 向右 原蛇头编号+1, 向左-1
+	// 向下 原蛇头编号+table列数,向上-table列数
+	// 运动方向如何决定？
+	// 由一变量direction记录 运动方向
+	// 设定默认方向为水平向右，
+	// 按方向键控制方向
+	// 根据keyCode判断是哪个方向键
+	// 按下的方向键和当前运动方向相反时无效；
+	//3吃食物及增长
+	// 如何判断吃到食物？
+	// 当下一步蛇头编号与食物编号一致时即表示吃到食物了
+	// 此时增加新蛇头但不删除蛇尾
+	//4碰壁时游戏结束
+	// 如何判断碰壁？
+	// 超过最大行或列数
+	!function(){
+		// 获取元素
+		var tds=_$('td');
+		// 蛇及食物
+		var snake=[0,1,2],
+			head=2,
+			food=190,
+			step=1;
+		var headR=1,headC=3;//初始蛇头在1行3列
+		var directionKey=39;//默认向右,向右键keyCode 39
+		//所有格子编号[0,1,2,3,...399]
+		var grids=Array.apply(null,Array(400)).map(function(_,i){return i});
+		// 定时器标记
+		var t=null;
+		draw();
+		t=setInterval(function(){
+			// 移动
+			walk();
+			// 绘制
+			draw();
+			console.log(headR,headC)
+		},200)
+		function draw(){
+			//清空
+			for(var i=0;i<tds.length;i++){
+				tds[i].style.backgroundColor='gray';
+			}
+			//画蛇
+			for(var i=0;i<snake.length;i++){
+				var snakeS='.r'+(parseInt(snake[i]/20)+1)+' .c'+(snake[i]%20+1);
+				$(snakeS).style.backgroundColor='red';
+			}
+			//画食物
+			var foodS='.r'+(parseInt(food/20)+1)+' .c'+(food%20+1);
+			$(foodS).style.backgroundColor='green';
+		}
+		function walk(){
+			head+=step;
+			switch(step){
+				case   1:headC+=1;break;
+				case  -1:headC-=1;break;
+				case  20:headR+=1;break;
+				case -20:headR-=1;break;
+			}
+			//判断是否越界或吃到自己
+			if(crossBorder()||eatSelf()){
+				clearInterval(t)
+				$('.info').innerHTML='Game Over!'
+				return;
+			}
+			snake.push(head);
+			if(head!=food){
+				snake.shift();
+			}else{
+				newFood();
+			}
+			console.log(snake);
+		}
+		function crossBorder(){
+			return (headR<1&&step==-20)||
+				   (headR>20&&step==20)||
+				   (headC<1&&step==-1)||
+				   (headC>20&&step==1);
+		}
+		function eatSelf(){
+			console.log(snake,head)
+			return snake.indexOf(head)!=-1;
+		}
+		function newFood(){
+			var tmp=grids.slice();
+			for(var i=0;i<snake.length;i++){
+				tmp.splice(tmp.indexOf(snake[i]),1);
+			}
+			var randI=parseInt(Math.random()*tmp.length);
+			food=tmp[randI];
+		}
+		document.onkeydown=function(e){
+			var code=e.keyCode;
+			if(Math.abs(code-directionKey)==2||code<37||code>40)return false;
+			directionKey=code;
+			switch(directionKey){
+				case 39:step=1;break;
+				case 40:step=20;break;
+				case 37:step=-1;break;
+				case 38:step=-20;break;
+			}
+		}
+	}()
+	function $(selector){
+		return document.querySelector(selector)
+	}
+	function _$(selector){
+		return document.querySelectorAll(selector)
+	}
+	</script>
+</body>
+</html>

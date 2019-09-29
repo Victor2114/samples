@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>留言板</title>
+		<style type="text/css">
+			* { padding: 0; margin: 0; font-size: 14px; }
+			ul { list-style: none; }
+			a,a:hover { text-decoration:none; }
+			a,input,textarea { outline: none; }
+			.clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+			.clearfix { display:inline-block; }
+			.clearfix { display:block; }
+			
+			.msg_mod { width: 500px; margin: 20px auto; }
+			.msg_mod .m_box { width: 100%; padding: 10px; border: 1px #ccc solid; border-radius: 3px; background: #f4f4f4; }
+			.msg_mod .m_line { margin-top: 10px; }
+			.msg_mod .m_line .fl { float: left; }
+			.msg_mod .m_line .fr { float: right; }
+			.msg_mod .m_line .font { width: 50px; } 
+			.msg_mod .m_line .input,
+			.msg_mod .m_line .textarea { width: 438px; padding: 0 5px; background: #fff; border: 1px #ccc solid; border-radius: 2px; } 
+			.msg_mod .m_line .font,
+			.msg_mod .m_line .input { height: 30px; line-height: 30px; }
+			.msg_mod .m_line .textarea { height: 120px; padding: 5px 5px; line-height: 16px; }
+			.msg_mod .m_line .submit { width: 60px; height: 30px; line-height: 30px; text-align: center; border: 1px #ccc solid; border-radius: 2px; cursor: pointer; }
+			
+			.msg_mod .m_title { padding-top: 20px; font-size: 20px; }
+			.msg_mod .m_cont { padding-top: 20px; }
+			.msg_mod .m_cont ul li { padding-top: 15px; }
+			.msg_mod .m_cont h3 { width: 100%; height: 30px; padding-left: 20px; line-height: 30px; background: #ccc; }
+			.msg_mod .m_cont p { width: 100%; height: 60px; padding-left: 20px; line-height: 60px; background: #f4f4f4; overflow: hidden; }
+			.msg_mod .m_cont p a { float: right; display: inline; margin-right: 20px; }
+		</style>
+	</head>
+	<body>
+		<div class="msg_mod">
+			<div class="m_box">
+				<form action="" method="">
+					<div class="m_line clearfix">
+						<span class="fl font">姓名：</span>
+						<input type="text" value="Bill" class="fr input" id="name" />
+					</div>
+					<div class="m_line clearfix">
+						<span class="fl font">内容:</span>
+						<textarea class="fr textarea" id="msg">msg</textarea>
+					</div>
+					<div class="m_line clearfix">
+						<input type="button" value="提交" class="fr submit" id="sub" />
+					</div>
+				</form>
+			</div>
+		    <h2 class="m_title">显示留言</h2>
+		    <div class="m_cont">
+		        <ul id="list">
+		        	<!-- <li><h3>名字</h3><p>内容<a href="###">删除</a></p></li> --> 
+		        </ul>
+		    </div>
+		</div>
+		<script type="text/javascript" src='js/tween1.0.js'></script>
+		<script type="text/javascript">
+		!function(){
+			//思路：
+			//1 填入用户名、留言信息后 点击提交，所填信息会出现在下方 留言列表中(DMO节点插入)
+			//2 若信息填写不完整，则点击提交button无反应
+			
+			//获取元素
+			var nameBox = document.querySelector('#name'),
+					msgBox = document.querySelector('#msg'),
+					btn = document.querySelector('#sub'),
+					list = document.querySelector('#list');
+			//阻止动画进行时提交的开关变量
+			var added = 0;
+			btn.onclick = function(){
+				var name = nameBox.value,
+						msg = msgBox.value;
+				if(name==''||msg==''){
+						alert('请输入正确内容！')
+				}else{
+					if(added) return;
+					//将填写内容插入下方列表
+					showMsg(name,msg,list);
+				}
+			}
+
+			function showMsg(name,msg,obj){
+				//方法1：不适合实现动画效果
+				// var tmp = "<li><h3>"+name+"</h3><p>"+msg+"<a href='###'>删除</a></p></li>"
+				// obj.innerHTML = tmp + obj.innerHTML
+				// var removes = document.querySelectorAll('a');
+				// for(var i=0;i<removes.length;i++){
+				// 	removes[i].onclick = function(){
+				// 		this.parentNode.parentNode.remove();
+				// 	}
+				// }
+				// 方法2:
+				added = 1;
+				var li = document.createElement('li');
+				li.innerHTML = '<h3>'+name+'</h3>';
+				var p = document.createElement('p');
+				p.innerHTML = msg;
+				var a = document.createElement('a');
+				a.innerHTML = '删除';
+				a.href = '###';
+				a.onclick = function(){
+					var tmp = this.parentNode.parentNode;
+					animate(tmp,tmp.offsetHeight,0);
+					return false;
+				}
+				p.appendChild(a);
+				li.appendChild(p);
+				var last = obj.firstElementChild;
+				obj.insertBefore(li,last);
+				console.log(li.offsetHeight)
+				var end = li.offsetHeight;
+				li.style.height = 0;
+				animate(li,0,end);
+			}
+
+			//动画效果
+			function animate(obj,start,end){
+					//小步改变li的height
+				var t = 0,
+						b = start,
+						c = end-start,
+						d = 20;
+				var timer = setInterval(function(){
+					t++;
+					if(t<=d){
+						obj.style.height = Tween.Linear(t,b,c,d)+'px'
+					}else{
+						clearInterval(timer);
+						added = 0;
+						if(end<=0){
+							obj.remove();
+						}
+					}
+				},50)
+			}
+		}()
+		</script>
+	</body>
+</html>

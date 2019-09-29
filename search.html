@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+</head>
+<body>
+	<p>你好世界，你好Internet,你好世界，你好Internet你好世界，你好Internet你好世界，你好Internet你好世界，你好Internet你好世界，你好Internet你好世界，你好Internet你好世界，你好Internet你好世界，你好Internet你好世界，你好Internet你好世界，你好Internet你好世界，你好Internet你好世界，你好Internet</p>
+	<input type="text" placeholder="请输入您要查找的内容" /><button>查找</button>
+	<script type="text/javascript">
+	// 思路：点击button时
+	// 在段落中查找用户输入的文字，将找到的内容加上特殊颜色
+	// 可以在找到的内容外面包括一个标签并附上行内样式
+	
+	//获取元素
+	var btn=document.querySelector('button'),
+		inp=document.querySelector('input'),
+		p=document.querySelector('p');
+	var content=p.innerHTML;
+	btn.onclick=function(){
+		var keyword=inp.value;
+		if(content.indexOf(keyword)!=-1){
+			var pattern=new RegExp(keyword,'g')
+			p.innerHTML=content.replace(pattern,'<b style="color:blue">'+keyword+'</b>');
+		}
+	}
+	</script>
+</body>
+</html>

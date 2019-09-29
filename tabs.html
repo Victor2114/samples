@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+	<style>
+		.wrap{
+			width: 600px;
+			margin:20px auto;
+			text-align:center;
+		}
+		.tab-head{
+			height: 30px;
+			line-height: 30px
+		}
+		.tab-head span{
+			display:inline-block;
+			width: 10%;
+			margin:0 20px;
+			height: 100%;
+			border:1px solid red;
+		}
+		.tab-head span:hover{
+			cursor:pointer;
+		}
+		.tab-content{
+			height: 300px;
+			font-size:100px;
+			line-height: 300px;
+		}
+		.item{
+			display:none;
+		}
+		.item.active{
+			display:block;
+		}
+		.active{
+			background-color: blue;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<div class="tab-head">
+			<span class='active'>1</span>
+			<span>2</span>
+			<span>3</span>
+			<span>4</span>
+		</div>
+		<div class="tab-content">
+			<div class="item active">1</div>
+			<div class="item">2</div>
+			<div class="item">3</div>
+			<div class="item">4</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+	// 思路：
+	// 1 为所有nav中的span循环绑定click处理逻辑
+	// 2 click到某个span时，该span高亮，其他span取消高亮；
+	//   与该span对应的tab显示，其他tab隐藏
+	
+	//获取元素
+	var navs=document.querySelectorAll('span'),
+	 	tabs=document.querySelectorAll('.item');
+	//console.log(navs,tabs);
+	for(var i=0;i<navs.length;i++){
+		navs[i].index=i;
+		navs[i].onclick=function(){
+			//方法1，添加自定义属性index记录当前span的下标
+			// for(var j=0;j<navs.length;j++){
+			// 	//将所有nav清除高亮，所有tab隐藏
+			// 	navs[j].className="";
+			// 	tabs[j].className="item"
+			// }
+			// //将当前被click的nav高亮，且让与之对应的tab显示
+			// this.className="active";
+			// console.log(i);
+			// tabs[this.index].className="item active";
+			
+			// 方法2，在内循环中判断哪个nav被点击并取得它的下标
+			this.className="active";
+			for(var j=0;j<navs.length;j++){
+				if(this==navs[j]){
+					tabs[j].className="item active";
+				}else{
+					navs[j].className="";
+					tabs[j].className="item";
+				}
+			}
+		}
+	}
+	</script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		.wrap{
+			margin:10px auto;	
+			width: 500px;
+			height: 120px;
+			text-align: center;
+			border:1px solid gray;
+		}
+		span{	
+			display:inline-block;
+			/*float:left;*/
+			font:20px bold Arial;
+			height: 80px;
+			line-height:80px;
+			border:1px solid gray;
+		}
+		#red{
+			color:red;
+			width: 380px;
+			margin-right:10px;
+		}
+		#blue{
+			color:blue;
+			width: 100px;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<span id='red'></span>
+		<span id='blue'></span>
+		<button>开始摇号</button>
+	</div>
+	<script type="text/javascript">
+	//思路：
+	//需求(双色球)：生成两组随机数
+	//组1 包含6个 1-33之间的随机数 每个数之间 用空格隔开，红色字体
+	//组2 包含1个 1-16之间的随机数 每个数之间 用空格隔开，蓝色字体
+	//如果 随机数 是个位数，需要在左边 补0
+	//将上述随机数 分别 显示在 红区 和 蓝区中
+	//两组随机 数 需要 循环 不断 地生成(绑定定时器)
+	//点击 开始摇号 按钮 时 开始生成，按钮上文字改为 确定
+	//点击 确定 时 不再产生新的随机数(定时器任务结束)
+	
+	//获取元素
+	var btn = document.querySelector('button'),
+			redBox = document.querySelector('#red'),
+			blueBox = document.querySelector('#blue');
+	//存放定时器标识
+	var t=null;
+	//开始摇号
+	btn.onclick = function(){
+		if(this.innerHTML == '开始摇号'){
+			t = setInterval(function(){
+				showLottery(1,33,5,redBox);
+				showLottery(1,16,2,blueBox);
+			},100);
+			this.innerHTML = '确定';
+		}else{
+			clearInterval(t);
+			this.innerHTML = '开始摇号'
+		}
+	}
+
+	/**
+	 * generate rand nums and show in showPlace
+	 * @param  number min       min of the random num
+	 * @param  number max       max of the random num
+	 * @param  number num       how many random nums
+	 * @param  DOMobj showPlace where to show
+	 * @return none           
+	 */
+	function showLottery(min,max,num,showPlace){
+		//存放随机数
+		var arr=[];
+		for (var i = 0; arr.length<num; i++) {
+			//生成随机数
+			var tmp = rand(min,max);
+			//验证是否已在数组中，若不在，则压入数组
+			if(arr.indexOf(addZero(tmp))== -1){
+				arr.push(addZero(tmp))
+			}
+		};
+
+		//展示随机数
+		showPlace.innerHTML = arr.join(' ');
+	}
+
+	//生成min到max之间的随机数
+	function rand(min,max){
+		return min+Math.round(Math.random()*(max-min))
+	}
+
+	//为个位数左边 补0
+	function addZero(num){
+		return num>=10?num:('0'+num)
+	}
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+</head>
+<body>
+	<input type="text" placeholder="请输入一组数字，如:1,5,3,2" />
+	<button>排序</button>
+	<span></span>
+	<script type="text/javascript">
+	// 思路(需求)
+	// 用户点击button时：
+	// 获取到用户输入的字符串
+	// 将字符串分割成数组
+	// 对数组排序
+	// 将排好序的数组拼接成字符串显示在span中
+	
+	// 获取元素
+	var input=document.querySelector('input'),
+		btn=document.querySelector('button'),
+		sp=document.querySelector('span');
+
+	btn.onclick=function(){
+		var nums=input.value.split(',');
+		//对nums中元素排序
+		for(var i=0;i<nums.length;i++){
+			for(var j=i+1;j<nums.length;j++){
+				if(Number(nums[i])>Number(nums[j])){
+					var tmp=nums[i];
+					nums[i]=nums[j];
+					nums[j]=tmp;
+				}
+			}
+		}
+		//将排好序的nums中元素用','连接放到span中
+		sp.innerHTML=nums;
+	}
+
+	</script>
+</body>
+</html>

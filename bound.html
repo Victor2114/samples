@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+	<style>
+		.wrap{
+			width: 500px;
+			height: 500px;
+			border:1px solid red;
+			margin:10px auto;
+			position:relative;
+		}
+		.box{
+			width: 50px;
+			height: 50px;
+			background-color: blue;
+			position:absolute;
+			left:0;
+			top:0;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<div class="box"></div>
+	</div>
+	<script type="text/javascript" src="js/global.js"></script>
+	<script type="text/javascript">
+		// 思路：
+		// 载入时小盒子即开始移动
+		// 需要先设定盒子移动速度,水平垂直方向各一个
+		// 通过定时器重复小步改变left及top实现移动
+		// 盒子碰到水平边缘时水平速度反向，垂直边缘时垂直速度反向  边缘如何判断？
+		// 预备知识:可分别通过offsetLeft及offsetTop获取定位元素相对于参考系的水平及垂直偏移量
+		// 分别通过clientWidth和offsetWidth获取内侧宽度及外侧宽度
+		!function(){
+			//获取元素
+			var box=$('.box'),
+				wrap=$('.wrap');
+			// 设定速度
+			var speedX=10,
+				speedY=4;
+			//设定范围
+			var maxX=wrap.clientWidth-box.offsetWidth,
+				maxY=wrap.clientHeight-box.offsetHeight;
+			var t=setInterval(function(){
+				//移动后box的坐标
+				var left=box.offsetLeft+speedX,
+					top=box.offsetTop+speedY;
+				//碰壁时速度反向
+				if(left>maxX||left<0){
+					speedX*=-1;
+				}
+				if(top>maxY||top<0){
+					speedY*=-1;
+				}
+				//位置范围限定
+				(left>maxX)&&(left=maxX);
+				(left<0)&&(left=0);
+				(top>maxY)&&(top=maxY);
+				(top<0)&&(top=0);
+			
+				//移动
+				console.log(left,top,speedX,speedY);
+				box.style.left=left+'px';
+				box.style.top=top+'px'
+			},20)
+
+		}()
+		
+	</script>
+</body>
+</html>

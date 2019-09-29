@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>选字游戏</title>
+	</head>
+	<body>
+		<style>
+			*{margin:0;padding:0;}
+			#wrap{
+				width:400px;
+				height:500px;
+				border:1px solid red;	
+				margin:0 auto;
+				position:relative;
+				}
+			#dao{
+				position:absolute;
+				font-size:2em;
+				top:50px;
+				left:20px;
+				}
+			#wan{
+				position:absolute;
+				font-size:2em;
+				top:50px;
+				right:20px;
+				}
+			#show{
+				position:absolute;
+				font-size:5em;
+				top:160px;
+				left:160px;
+				}
+			#desc{
+				position:absolute;
+				font-size:1.5em;
+				top:270px;
+				padding:30px;
+			}
+			#score,#time{
+				width:40px;
+				display:inline-block;
+				text-align:center;
+			}
+			ul{
+				list-style: none;
+				position:absolute;
+				bottom: 50px;
+				left:50px;
+			}
+			li{
+				float:left;
+				font-size:3em;
+				text-indent:10px;
+			}
+			li:hover{
+				cursor:pointer;
+			}
+		</style>
+		
+		<div id='wrap'>
+			<div id="dao">
+				剩余时间:<span id='time'>20</span><span>s</span>
+			</div>
+			<div id="wan">
+				得分:<span id="score">0</span>
+			</div>
+			<div id="show" style="color:yellow">
+				黄
+			</div>
+			<div id="desc">
+				根据上面的字的颜色从下面选择正确的字，选择正确自动开始
+			</div>
+			<ul>
+				<li id='itme0' class="item" style="color:yellow">黄</li>
+				<li id='itme1' class="item" style='color:green'>绿</li>
+				<li id='itme2' class="item" style='color:red'>红</li>
+				<li id='itme3' class="item" style="color:blue">蓝</li>
+				<li id='itme4' class="item" style="color:black">黑</li>
+			</ul>
+		</div>
+		<script type="text/javascript" src="js/global.js"></script>
+		<script type="text/javascript">
+		//思路：
+		//1 对所有class='item'的li的onclick绑定逻辑：
+		//1.1 如果点击的li内的文字 和 id='show'的div内文字的颜色相同 则 开始游戏（倒计时），并得分
+		//1.2 定义两个数组 分别为clrArr=['red','yellow','green','blue','black']和chrArr=['红','黄','绿','蓝','黑']
+		//1.3 li中文字可以通过 li.innerHTML得到，得到后，可获取 该文字在chrArr中的索引;show中文字颜色可通过show.style.color获取到，同样可获取该color在clrArr中的索引
+		//1.4 若上述两个索引 相等，则说明 选对了，上述逻辑可封装到一个函数isRight中
+		//1.5 得分包含两步：score++(score用于存储分数)，及显示到span中；
+		//2 游戏开始之后，每次点击都会刷新 上方 大字 的文字及颜色(需要生成两个0-4之间的随机数) 以及下方 item的文字及颜色组合(需要生成两个由[0,1,2,3,4]打乱顺序得到的数组)
+		//3 倒计时,其实就是将time=20每秒减1，当time<=0就结束倒计时，弹出提示。倒计时仅在游戏开始时被触发，后续点击不应重复触发。
+		
+		//获取元素
+		var showBox = $('#show'),
+				items = _$('.item'),
+				timeBox = $('#time'),
+				scoreBox = $('#score');
+		//全局变量
+		var time = 20,
+				timer = null,
+				score = 0,
+				started = 0,
+				chrArr = ['红','黄','绿','蓝','黑'],
+				clrArr = ['red','yellow','green','blue','black'];
+
+		//为所有item的click绑定逻辑
+		for(var i=0;i<items.length;i++){
+			items[i].onclick = function(){
+				console.log(isRight(this))
+				if(time>0&&(isRight(this) || started)){
+					play(this)
+				}
+			}
+		}
+
+		//判断是否点击到正确的文字
+		function isRight(obj){
+			var chrIndex = chrArr.indexOf(obj.innerHTML);
+			var clrIndex = clrArr.indexOf(showBox.style.color);
+			if((chrIndex==clrIndex) && (chrIndex!=-1)){
+				return true;
+			}else{
+				return false;
+			}
+		}
+
+		//游戏主逻辑
+		function play(obj){
+			if(!started){
+				countDown()
+				started=1;
+			}
+			if(isRight(obj)){
+				score++;
+				scoreBox.innerHTML = score;
+			}
+			//刷新大小字文字及颜色 
+			refresh()
+		}
+
+		//刷新
+		function refresh(){
+			var chrIndex = rand(0,4),
+					clrIndex = rand(0,4),
+					chrRandArr = randArr([0,1,2,3,4]),
+					clrRandArr = randArr([0,1,2,3,4]);
+			//更新大字
+			showBox.innerHTML = chrArr[chrIndex];
+			showBox.style.color = clrArr[clrIndex];
+			//更新小字
+			for(var i=0;i<items.length;i++){
+				items[i].innerHTML = chrArr[chrRandArr[i]]
+				items[i].style.color = clrArr[clrRandArr[i]]
+			}
+		}
+
+		//倒计时
+		function countDown(){
+			timer = setInterval(function(){
+				time--;
+				timeBox.innerHTML = parseInt(time);
+				if(time<=0){
+					clearInterval(timer);
+					console.log(timeBox.innerHTML);
+					console.log(time);
+					alert('时间到,您的得分为'+score+'分');
+				}
+			},500)
+		}
+
+		function rand(min,max){
+			return min+Math.round(Math.random()*(max-min))
+		}
+		function randArr(arr){
+			return arr.sort(function(){return Math.random()-0.5});
+		}
+		</script>
+</body>
+</html>

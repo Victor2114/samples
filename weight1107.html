@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+	<style>
+		.wrap{
+			padding:10px;
+			width: 500px;
+			height: 500px;
+			border:1px solid red;
+			margin:20px auto;
+			position:relative;
+		}
+		.box{
+			width: 50px;
+			height: 50px;
+			background-color: blue;
+			position: absolute;
+			left:0;
+			top:0;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<div class="box"></div>
+	</div>
+	<script type="text/javascript" src="js/global.js"></script>
+	<script type="text/javascript">
+	//思路：
+	//点击body时,box开始自由落体
+	//下落速度初值为0，不断加快；
+	//落到wrap底部时(判断)，反弹，反弹速度会衰减（*0.8）
+	//当触底以及反弹速度（布局）小于1px时，停下（清除定时器）
+	!function(){
+		var wrap=$('.wrap'),
+			box=$('.box');
+		var maxY=wrap.clientHeight-box.offsetHeight
+		//设定速度及加速度
+		var step=0,a=2;
+		//记录box的top属性值
+		var top;
+		var t=setInterval(function(){
+			step+=a;
+			top=box.offsetTop+step;
+			if(top>maxY){
+				step*=-0.9;
+				top=maxY;
+				if(Math.abs(step)<1){
+					clearInterval(t);
+				}
+			}
+			console.log(top);
+			box.style.top=top+'px';
+		},20)
+	}()
+		
+	</script>
+</body>
+</html>

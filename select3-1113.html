@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+</head>
+<body>
+	<label for="">市</label>
+	<select name="" id="city">
+		<option value="0">请选择</option>
+	</select>
+	<label for="">区</label>
+	<select name="" id="district">
+		<option value="0">请选择</option>
+	</select>
+	<label for="">乡</label>
+	<select name="" id="county">
+		<option value="0">请选择</option>
+	</select>
+	<script>
+	//思路：
+	//1 需要有市、区数据
+	//2 页面载入时市下拉列表需要包含所有的 市 数据为option,市区数据均默认为请选择
+	//3 选中某市后，区下拉列表中需包含对应的区 数据为option
+	//4 选中某区后，乡下拉列表中需包含对应的乡 数据为option
+	!function(){
+		var cityData=[['武汉','1'],['荆州','2'],['宜昌','3']];
+		var districtData=[
+		[['武昌','1-1'],['洪山','1-2'],['江夏','1-3']],
+		[['沙市','2-1'],['松滋','2-2'],['江陵','2-3']],
+		[['夷陵','3-1'],['枝江','3-2'],['猇亭','3-3']]
+		];
+		var countyData=[
+			[
+				[['关山','1-1-1'],['街道口','1-1-2'],['南湖','1-1-3']],
+				[['宝通寺','1-2-1'],['中南路','1-2-2'],['洪山广场','1-2-3']],
+				[['纸坊','1-3-1'],['金融港','1-3-2'],['佛祖岭','1-3-3']],
+			],
+			[
+				[['荆山','2-1-1'],['荆口','2-1-2'],['洪湖','2-1-3']],
+				[['宝通寺1','2-2-1'],['中南路1','2-2-2'],['洪山广场1','2-2-3']],
+				[['纸坊','2-3-1'],['金融港','2-3-2'],['佛祖岭','2-3-3']],
+			],
+			[
+				[['关山2','3-1-1'],['街道口2','3-1-2'],['南湖2','3-1-3']],
+				[['宝通寺2','3-2-1'],['中南路2','3-2-2'],['洪山广场2','3-2-3']],
+				[['纸坊2','3-3-1'],['金融港2','3-3-2'],['佛祖岭2','3-3-3']],
+			]
+		]
+
+		//获取元素
+		var cities=document.querySelector('#city'),
+			districts=document.querySelector('#district'),
+			counties=document.querySelector('#county');
+		//初始化
+		for(var i=0;i<cityData.length;i++){
+			var tmp=new Option(cityData[i][0],cityData[i][1]);
+			cities.appendChild(tmp);
+		}
+		//选中不同的市时右边下拉列表展示各自的区
+		cities.onchange=function(){
+			if(this.value!=0){
+				var districtIndex=this.value-1
+				var currDistricts=districtData[districtIndex]
+				districts.innerHTML="<option value=0>请选择</option>"
+				for(var i=0;i<currDistricts.length;i++){
+					var tmp=new Option(currDistricts[i][0],currDistricts[i][1]);
+					districts.appendChild(tmp);
+				}
+				counties.innerHTML="<option value=0>请选择</option>";
+			}else{
+				districts.innerHTML="<option value=0>请选择</option>";
+				counties.innerHTML="<option value=0>请选择</option>";
+			}
+		}
+		//选中不同的区时，乡下拉列表展示对应的乡
+		districts.onchange=function(){
+			if(this.value!=0){
+				var districtIndex=cities.value-1;
+				var countyIndex=this.value.split('-').pop()-1;
+				console.log(districtIndex,countyIndex);
+				var currCounties=countyData[districtIndex][countyIndex];
+				counties.innerHTML="<option value=0>请选择</option>";
+				for(var i=0;i<currCounties.length;i++){
+					var tmp=new Option(currCounties[i][0],currCounties[i][1]);
+					counties.appendChild(tmp);
+				}
+			}else{
+				counties.innerHTML="<option value=0>请选择</option>";
+			}
+		}
+	}()
+	</script>
+</body>
+</html>

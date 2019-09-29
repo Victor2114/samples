@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>选字游戏</title>
+	</head>
+	<body>
+		<style>
+			*{margin:0;padding:0;}
+			#wrap{
+				width:400px;
+				height:500px;
+				border:1px solid red;	
+				margin:0 auto;
+				position:relative;
+				}
+			#dao{
+				position:absolute;
+				font-size:2em;
+				top:50px;
+				left:20px;
+				}
+			#wan{
+				position:absolute;
+				font-size:2em;
+				top:50px;
+				right:20px;
+				}
+			#show{
+				position:absolute;
+				font-size:5em;
+				top:160px;
+				left:160px;
+				}
+			#desc{
+				position:absolute;
+				font-size:1.5em;
+				top:270px;
+				padding:30px;
+			}
+			#score,#time{
+				width:40px;
+				display:inline-block;
+				text-align:center;
+			}
+			ul{
+				list-style: none;
+				position:absolute;
+				bottom: 50px;
+				left:50px;
+			}
+			li{
+				float:left;
+				font-size:3em;
+				text-indent:10px;
+			}
+			li:hover{
+				cursor:pointer;
+			}
+		</style>
+		
+		<div id='wrap'>
+			<div id="dao">
+				剩余时间:<span id='time'>20</span><span>s</span>
+			</div>
+			<div id="wan">
+				得分:<span id="score">0</span>
+			</div>
+			<div id="show" style="color:yellow">
+				黄
+			</div>
+			<div id="desc">
+				根据上面的字的颜色从下面选择正确的字，选择正确自动开始
+			</div>
+			<ul>
+				<li id='itme0' class="item" style="color:yellow">黄</li>
+				<li id='itme1' class="item" style='color:green'>绿</li>
+				<li id='itme2' class="item" style='color:red'>红</li>
+				<li id='itme3' class="item" style="color:blue">蓝</li>
+				<li id='itme4' class="item" style="color:black">黑</li>
+			</ul>
+		</div>
+		<script type="text/javascript" src="js/global.js"></script>
+		<script type="text/javascript">
+		// 思路：
+		// 1 点击下方五个字中的任意一个，如果该字意思为上方大字的颜色，则选字正确，开始游戏。
+		//  1.1 需要对五个li(包含字的标签)的onclick循环绑定处理逻辑
+		//  1.2 要判断点中的字是否和上方大字颜色一致
+		//  1.3 一致时开始游戏，倒计时开始
+		//  计分开始，刷新大字及小字(含文字和颜色)
+		//2 如何判断文字及颜色一致？
+		// 2.1可以设置两个数组分别存放
+		//  红绿黑黄蓝及red green black yellow blue
+		// 2.2点击下方小字时可以通过innerHTML获取到当前文字,可以通过.style.color获取到上方大字颜色
+		// 2.3 分别在上述文字数组及颜色数组中查找(indexOf)刚获取到的小字文字及大字颜色，得到各自下标
+		// 2.4 若两个下标一致，则说明选对了
+	// 3 如何刷新大小字文字及颜色？
+		// 3.1 对于大字，生成两个随机数，然后以之为下标分别到上述两个数组中去获取两个随机元素 
+		// 3.2 对于小字，需要生成两个随机数组如[0,1,2,3,4]  [1,2,3,0,4],该问题本质是如何将[0,1,2,3,4]随机打乱顺序。
+		// 然后根据此两个数组，从上述文字及单词数组中获取元素，得到5个小字及对应的颜色
+	// 4 计分，设一个全局变量初值为0,每选对一次，自加1，并显示在指定位置
+	// 5 倒计时 设一全局变量初值为20,绑定定时器,每1000ms,自减1，并显示在指定未知。
+	//   注意：倒计时仅在游戏开始的那一次click触发，后面不能重复触发。
+		!function(){
+			//获取元素
+			var items=_$('.item'),
+				big=$('#show'),
+				scoreBox=$('#score'),
+				timeBox=$('#time');
+			//设置资源变量
+			var chrs=['黑','黄','蓝','红','绿'] ,
+				clrs=['black','yellow','blue','red','green'],
+				time=20,
+				score=0;
+			//标记游戏是否开始
+			var started=0;
+
+			for(var i=0;i<items.length;i++){
+				items[i].onclick=function(){
+					if(isRight(this)&&time>0){
+						//计分
+						newScore();
+						if(!started){
+							//倒计时
+							countDown();
+						}
+						//游戏已开始
+						started=1;		
+					}
+					if(started&&time>0){
+						//刷新
+						refresh()
+					}
+				}
+			}
+			//倒计时
+			function countDown(){
+				var t=setInterval(function(){
+					time--;
+					timeBox.innerHTML=time;
+					if(time<=0){
+						clearInterval(t);
+						setTimeout(function(){
+							alert('Game Over!您的得分为'+score+'分');
+						},200)
+					}
+				},1000)
+			}
+
+			//刷新
+			function refresh(){
+				//刷新小字
+				var smallChrs=randArr([0,1,2,3,4]),
+					smallClrs=randArr([0,1,2,3,4]);
+				for(var i=0;i<items.length;i++){
+					items[i].innerHTML=chrs[smallChrs[i]];
+					items[i].style.color=clrs[smallClrs[i]]
+				}
+				//刷新大字
+				var bigClr=rand(0,5),
+					bigChr=rand(0,5);
+				big.innerHTML=chrs[bigChr];
+				big.style.color=clrs[bigClr];
+			}
+			//获取随机数组
+			function randArr(arr){
+				return arr.sort(function(){
+					return Math.random()-0.5
+				})
+			}
+			//获取随机数
+			function rand(min,max){
+				return min+parseInt(Math.random()*(max-min))
+			}
+			//计分
+			function newScore(){
+				score++;
+				scoreBox.innerHTML=score;
+			}
+			//判断是否选对
+			function isRight(obj){
+				//获取当前小字
+				var text=obj.innerHTML;
+				//获取大字颜色
+				var color=big.style.color;
+				return (chrs.indexOf(text)==clrs.indexOf(color))&&(chrs.indexOf(text)!=-1);
+			}
+
+		}()
+		</script>
+	</body>
+</html>
